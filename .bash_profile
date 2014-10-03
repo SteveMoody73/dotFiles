@@ -37,3 +37,6 @@ fi
 
 source ~/.git-prompt.sh
 
+export PATH=/opt/m68k/bin:$PATH
+
+

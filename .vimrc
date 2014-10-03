@@ -37,7 +37,7 @@ set matchpairs+=<:>
 
 " Backups and Swap
 set backupdir=~/tmp/sessions
-set backupcopy=yes
+set backupcopy=no
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 set noswapfile
 
@@ -46,7 +46,7 @@ set completeopt=menuone,longest,preview
 
 " Shortcut to rapidly toggle `set list`
 nmap <leader>l :set list!<CR>
- 
+
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬
 
