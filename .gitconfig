@@ -31,7 +31,7 @@
 [color "branch"]
 	current = green bold
 	local = yellow
-	remote = yellow
+	remote = yellow	
 
 [color "diff"]
   meta = yellow bold
@@ -42,16 +42,16 @@
 
 [core]
 	excludesfile = $HOME/.gitignore
-	editor = vim
+	editor = subl -w
 [format]
 	pretty = %C(cyan)%h%C(green) %an\t%Creset%s
-
+	
 [github]
-	user = SteveMoody73
+	user = johanbrook
 
 [difftool]
 	prompt = false
-
+	
 [credential]
 	helper = osxkeychain
 

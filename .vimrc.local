@@ -1,0 +1,41 @@
+
+set nocursorline
+set relativenumber
+
+" NERDTree Mappings"
+nmap <leader>nt :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+nmap <F2> :NERDTreeMirror<CR>:NERDTreeMirror<CR>
+
+"UndoTree"
+
+nnoremap <Leader>u :UndotreeToggle<CR>
+nnoremap <Leader>g :GundoToggle<CR>
+
+let g:indent_guides_enable_on_vim_startup = 0
+
+" C coding"
+nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
+
+"Assembler"
+au BufNewFile, BufRead *.x68,*.X68,*.s,*.asm set filetype=asm68k
+
+
+" Run Ctags on write "
+au BufWritePost *.c,*.cpp,*.h silent! !ctags -R &
+
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+nnoremap <C-n> :call NumberToggle()<CR>
+
+:au FocusLost * :set number
+:au FocusGained * :set relativenumber
+
+
+
