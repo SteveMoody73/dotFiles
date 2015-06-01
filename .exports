@@ -1,6 +1,12 @@
 # Set the default editor
-export EDITOR="vim"
-
+if [ -f /usr/local/bin/subl ]; then
+    export EDITOR='subl -w'
+elif [ -f /usr/local/bin/mate ]; then
+    export EDITOR='mate'
+    export GIT_EDITOR='mate -wl1'
+else
+	export EDITOR="vim"
+fi
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
 # Highlight section titles in manual pages
@@ -22,4 +28,4 @@ export COPYFILE_DISABLE=true
 
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 
-export TZ='Europe/London'
+export TZ='Europe/Brussels'
