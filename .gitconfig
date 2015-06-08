@@ -53,7 +53,10 @@
 	prompt = false
 	
 [credential]
-	helper = osxkeychain
+; OSX
+    helper = osxkeychain
+;linkux
+;   helper = cache --timeout=604800
 
 [push]
 	default = simple
