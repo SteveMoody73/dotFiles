@@ -9,7 +9,7 @@
 	p = push
 	pom = push origin master
 	log = log --topo-order --decorate
-	glog = log --format='%C(cyan)%h%Creset %Cgreen%an%Creset\t%s' --graph
+	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	s = status
 	pul = pull --rebase
 	unstage = reset HEAD
@@ -54,9 +54,9 @@
 	
 [credential]
 ; OSX
-    helper = osxkeychain
+;    helper = osxkeychain
 ;linkux
-;   helper = cache --timeout=604800
+   helper = cache --timeout=604800
 
 [push]
 	default = simple
