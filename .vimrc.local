@@ -5,6 +5,12 @@ au BufNewFile,BufRead *.x68,*,X68,*.s,*.asm set filetype=asm68k
 au BufNewFile,BufRead *.a65 set filetype=a65
 au FileType asm68k,a65 setlocal nospell
 
+
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadBraces
+
+
+
 nnoremap <silent> <leader>b :TagbarToggle
 
 function! NumberToggle()

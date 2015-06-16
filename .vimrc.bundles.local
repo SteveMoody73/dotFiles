@@ -1,3 +1,6 @@
+" Install additional plugins
+Bundle 'kien/rainbow_parentheses.vim'
+
 " Uninstall general plugins
 
 UnBundle 'spf13/vim-colors'
