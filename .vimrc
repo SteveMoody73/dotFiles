@@ -12,6 +12,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " Additional plugins to use are added here
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-git'
 Plugin 'scrooloose/nerdtree'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
@@ -27,6 +28,7 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'Shougo/neocomplete.vim.git'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
+Plugin 'airblade/vim-gitgutter'
 
 call vundle#end()
 filetype plugin indent on
@@ -105,8 +107,21 @@ filetype plugin indent on
     " set it to the first line when editing a git commit message
     au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 
+    " http://vim.wikia.com/Restore_cursor_to_file_position_in_previous_editing_session
+    " Restore cursor to file position in previous editing session
+    function! ResCur()
+        if line("'\"") <= line("$")
+            normal! g`"
+            return 1
+        endif
+    endfunction
 
-    " Setting up the directories {
+    augroup resCur
+        autocmd!
+        autocmd BufWinEnter * call ResCur()
+    augroup END
+
+    " Setting up the directories
     set backup                  " Backups are nice ...
     if has('persistent_undo')
         set undofile                " So is persistent undo ...
@@ -189,8 +204,8 @@ filetype plugin indent on
     autocmd FileType haskell,ruby setlocal expandtab shiftwidth=2 softtabstop=2
     autocmd FocusLost set number
     autocmd FocusGained set relativenumber
-    autocmd FileType c,cpp,java,go,php,javascript,python RainbowParenthesesToggle
 
+    autocmd FileType c,cpp,java,go,php,javascript,python RainbowParenthesesToggleAll
 
 " Key mapping
 
@@ -205,6 +220,9 @@ filetype plugin indent on
     " Visual shifting (does not exit Visual mode)
     vnoremap < <gv
     vnoremap > >gv
+
+    nmap <F8> :TagbarToggle<CR>
+
 
 " Plugin Configuration
 
