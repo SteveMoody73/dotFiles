@@ -53,7 +53,7 @@
 ; OSX
 ;    helper = osxkeychain
 ;linux
-   helper = git-credential-gnome-keyring
+   helper = /usr/local/bin/git-credential-gnome-keyring
 
 [push]
 	default = simple
