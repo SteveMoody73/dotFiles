@@ -46,17 +46,14 @@
 [format]
 	pretty = %C(cyan)%h%C(green) %an\t%Creset%s
 	
-[github]
-	user = johanbrook
-
 [difftool]
 	prompt = false
 	
 [credential]
 ; OSX
 ;    helper = osxkeychain
-;linkux
-   helper = cache --timeout=604800
+;linux
+   helper = git-credential-gnome-keyring
 
 [push]
 	default = simple
