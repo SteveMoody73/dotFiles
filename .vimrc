@@ -291,11 +291,47 @@ filetype plugin indent on
         if !exists('g:airline_theme')
             let g:airline_theme = 'solarized'
         endif
-        if !exists('g:airline_powerline_fonts')
-            " Use the default set of separators with a few customizations
-            let g:airline_left_sep='›'  " Slightly fancier than '>'
-            let g:airline_right_sep='‹' " Slightly fancier than '<'
+        
+        if !exists('g:airline_symbols')
+          let g:airline_symbols = {}
         endif
+
+
+        if !exists('g:airline_powerline_fonts')
+            let g:airline_powerline_fonts = 1
+        endif
+
+        " Use the default set of separators with a few customizations
+        let g:airline_left_sep = '»'
+        let g:airline_left_sep = '▶'
+        let g:airline_right_sep = '«'
+        let g:airline_right_sep = '◀'
+        let g:airline_symbols.crypt = '🔒'
+        let g:airline_symbols.linenr = '␊'
+        let g:airline_symbols.linenr = '␤'
+        let g:airline_symbols.linenr = '¶'
+        let g:airline_symbols.branch = '⎇'
+        let g:airline_symbols.paste = 'ρ'
+        let g:airline_symbols.paste = 'Þ'
+        let g:airline_symbols.paste = '∥'
+        let g:airline_symbols.whitespace = 'Ξ'
+
+        let g:airline_detect_modified = 1
+        let g:airline#extensions#branch#enabled = 1
+        let g:airline#extensions#branch#displayed_head_limit = 16
+        let g:airline#extensions#syntastic#enabled = 1
+
+        function! AirlineInit()
+            let g:airline_aection_a = airline#section#create(['mode','crypt','paste','iminsert'])
+            let g:airline_section_b = airline#section#create_left(['branch','hunks','ffenc','%f'])
+            let g:airline_section_c = airline#section#create(['filetype'])
+            let g:airline_section_x = airline#section#create(['%P'])
+            let g:airline_section_y = airline#section#create(['%B'])
+            let g:airline_section_z = airline#section#create_right(['%l','%c'])
+            let g:airline_section_warning = airline#section#create(['syntastic','whitespace'])
+        endfunction
+
+        autocmd VimEnter * call AirlineInit()
     endif
 
 " NeoComplete 
