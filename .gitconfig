@@ -42,7 +42,7 @@
 
 [core]
 	excludesfile = $HOME/.gitignore
-	editor = subl -w
+	editor = vim
 [format]
 	pretty = %C(cyan)%h%C(green) %an\t%Creset%s
 	
@@ -50,10 +50,7 @@
 	prompt = false
 	
 [credential]
-; OSX
-;    helper = osxkeychain
-;linux
-   helper = /usr/local/bin/git-credential-gnome-keyring
+   helper = store
 
 [push]
 	default = simple
