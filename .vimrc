@@ -527,3 +527,9 @@ filetype plugin indent on
 
 au BufRead,BufNewFile *.x68,*.X68,*.s,*.asm setlocal filetype=asm68k
 au FileType asm68k setlocal nospell
+
+augroup XML
+    autocmd!
+    autocmd FileType xml setlocal foldmethod=indent foldlevelstart=999 foldminlines=0
+augroup END
+
