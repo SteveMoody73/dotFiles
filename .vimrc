@@ -132,14 +132,6 @@ filetype plugin indent on
 " User interface
 
 
-    if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-        let g:solarized_termcolors=256
-        let g:solarized_termtrans=1
-        let g:solarized_contrast="normal"
-        let g:solarized_visibility="normal"
-        color solarized             " Load a colorscheme
-    endif
-
     set showmode                    " Display the current mode
     set cursorline                  " Highlight the current line
 
@@ -289,9 +281,9 @@ filetype plugin indent on
     " Default in terminal vim is 'dark'
     if isdirectory(expand("~/.vim/bundle/vim-airline/"))
         if !exists('g:airline_theme')
-            let g:airline_theme = 'solarized'
+            let g:airline_theme = 'ubaryd'
         endif
-        
+
         if !exists('g:airline_symbols')
           let g:airline_symbols = {}
         endif
