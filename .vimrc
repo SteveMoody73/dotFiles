@@ -204,10 +204,10 @@ filetype plugin indent on
     let mapleader = ','
 
     " Easier moving in tabs and windows
-    map <C-J> <C-W>j<C-W>_
-    map <C-K> <C-W>k<C-W>_
-    map <C-L> <C-W>l<C-W>_
-    map <C-H> <C-W>h<C-W>_
+    map <C-J> <C-W>j
+    map <C-K> <C-W>k
+    map <C-H> <C-W>h
+    map <C-L> <C-W>l
 
     " Visual shifting (does not exit Visual mode)
     vnoremap < <gv
@@ -225,6 +225,7 @@ filetype plugin indent on
     " Make tags placed in .git/tags file available in all levels of a repository
     let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
     if gitroot != ''
+
         let &tags = &tags . ',' . gitroot . '/.git/tags'
     endif
 
