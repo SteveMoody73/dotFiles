@@ -473,6 +473,11 @@ filetype plugin indent on
     command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
     " e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
 
+" Auto reload vimrc file
+augroup reload_vimrc 
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
 
 " Filetype mappings
 
