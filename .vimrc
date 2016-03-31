@@ -27,6 +27,13 @@ Plugin 'Shougo/neosnippet-snippets'
 
 " Themes
 Plugin 'sickill/vim-monokai'
+Plugin 'fcevado/molokai_dark'
+Plugin 'notpratheek/vim-luna'
+Plugin 'lanox/lanox-vim-theme'
+Plugin 'acoustichero/simple_dark'
+Plugin 'marciomazza/vim-brogrammer-theme'
+Plugin 'marcopaganini/mojave-vim-theme'
+Plugin 'mkarmona/colorsbox'
 Plugin 'vim-airline/vim-airline-themes'
 
 " Git support
@@ -46,13 +53,14 @@ filetype plugin indent on
 " General Settings
 
     set background=dark
-    colorscheme monokai
     syntax on
     set mouse=a                 " Enable mouse usage
-    set mousehide               " Hide the mouse cursor while typeing
+    set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
     set encoding=utf-8
     "set nolist
+
+    colorscheme molokai_dark
 
     if has('clipboard')
         if has('unnamedplus')  " When possible use + register for copy-paste
@@ -274,7 +282,7 @@ filetype plugin indent on
     " Use smartcase.
     let g:neocomplete#enable_smart_case = 1
     " Set minimum syntax keyword length.
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#sources#syntax#min_keyword_length = 4
     let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
     " Define dictionary.
