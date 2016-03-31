@@ -11,11 +11,8 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Additional plugins to use are added here
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-git'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'mbbill/undotree'
 Plugin 'scrooloose/syntastic'
@@ -23,13 +20,24 @@ Plugin 'scrooloose/nerdcommenter'
 if executable('ctags')
     Bundle 'majutsushi/tagbar'
 endif
-Plugin 'fatih/vim-go'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'Shougo/neocomplete.vim.git'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
+
+" Themes
+Plugin 'sickill/vim-monokai'
+Plugin 'vim-airline/vim-airline-themes'
+
+" Git support
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-git'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-shell'
+" Language support
 Plugin 'rust-lang/rust.vim'
+Plugin 'fatih/vim-go'
 
 call vundle#end()
 filetype plugin indent on
@@ -38,10 +46,13 @@ filetype plugin indent on
 " General Settings
 
     set background=dark
+    colorscheme monokai
     syntax on
     set mouse=a                 " Enable mouse usage
     set mousehide               " Hide the mouse cursor while typeing
-    scriptencoding uft-8
+    scriptencoding utf-8
+    set encoding=utf-8
+    "set nolist
 
     if has('clipboard')
         if has('unnamedplus')  " When possible use + register for copy-paste
@@ -49,6 +60,15 @@ filetype plugin indent on
         else         " On mac and Windows, use * register for copy-paste
             set clipboard=unnamed
         endif
+    endif
+
+    if has("gui_running")
+        set lines=55 columns=200
+        set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10
+        set guioptions-=T                   " Remove the tool bar
+        set guioptions-=r                   " Remove the right-hand scroll bar
+    else
+        set term=xterm-256color
     endif
 
     set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
@@ -101,18 +121,6 @@ filetype plugin indent on
         set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
         set showcmd                 " Show partial commands in status line and
                                     " Selected characters/lines in visual mode
-    endif
-
-
-    if has('statusline')
-        set laststatus=2
-        " Broken down into easily includeable segments
-        set statusline=%<%f\                     " Filename
-        set statusline+=%w%h%m%r                 " Options
-        set statusline+=%{fugitive#statusline()} " Git Hotness
-        set statusline+=\ [%{&ff}/%Y]            " Filetype
-        set statusline+=\ [%{getcwd()}]          " Current dir
-        set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
     endif
 
     set backspace=indent,eol,start  " Backspace for dummies
@@ -239,53 +247,25 @@ filetype plugin indent on
     " See `:echo g:airline_theme_map` for some more choices
     " Default in terminal vim is 'dark'
     if isdirectory(expand("~/.vim/bundle/vim-airline/"))
-        if !exists('g:airline_theme')
-            let g:airline_theme = 'ubaryd'
-        endif
-
-        if !exists('g:airline_symbols')
-          let g:airline_symbols = {}
-        endif
-
-
-        if !exists('g:airline_powerline_fonts')
-            let g:airline_powerline_fonts = 1
-        endif
-
-        " Use the default set of separators with a few customizations
-        let g:airline_left_sep = '»'
-        let g:airline_left_sep = '▶'
-        let g:airline_right_sep = '«'
-        let g:airline_right_sep = '◀'
-        let g:airline_symbols.crypt = '🔒'
-        let g:airline_symbols.linenr = '␊'
-        let g:airline_symbols.linenr = '␤'
-        let g:airline_symbols.linenr = '¶'
-        let g:airline_symbols.branch = '⎇'
-        let g:airline_symbols.paste = 'ρ'
-        let g:airline_symbols.paste = 'Þ'
-        let g:airline_symbols.paste = '∥'
-        let g:airline_symbols.whitespace = 'Ξ'
-
-        let g:airline_detect_modified = 1
-        let g:airline#extensions#branch#enabled = 1
-        let g:airline#extensions#branch#displayed_head_limit = 16
-        let g:airline#extensions#syntastic#enabled = 1
-
-        function! AirlineInit()
-            let g:airline_aection_a = airline#section#create(['mode','crypt','paste','iminsert'])
-            let g:airline_section_b = airline#section#create_left(['branch','hunks','ffenc','%f'])
-            let g:airline_section_c = airline#section#create(['filetype'])
-            let g:airline_section_x = airline#section#create(['%P'])
-            let g:airline_section_y = airline#section#create(['%B'])
-            let g:airline_section_z = airline#section#create_right(['%l','%c'])
-            let g:airline_section_warning = airline#section#create(['syntastic','whitespace'])
-        endfunction
-
-        autocmd VimEnter * call AirlineInit()
+        set laststatus=2               " enable airline even if no splits
+        let g:airline_theme='luna'
+        let g:airline_powerline_fonts=1
+        let g:airline_enable_branch=1
+        let g:airline_enable_syntastic=1
+        let g:airline_powerline_fonts = 1
+        "let g:airline_left_sep = ''
+        "let g:airline_right_sep = ''
+        "let g:airline_linecolumn_prefix = '␊ '
+        "let g:airline_linecolumn_prefix = '␤ '
+        let g:airline_linecolumn_prefix = '¶ '
+        "let g:airline_branch_prefix = '⎇ '
+        let g:airline_paste_symbol = 'ρ'
+        let g:airline_paste_symbol = 'Þ'
+        let g:airline_paste_symbol = '∥'
+        let g:airline#extensions#tabline#enabled = 0
     endif
 
-" NeoComplete 
+" NeoComplete
 
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
@@ -332,25 +312,6 @@ filetype plugin indent on
     " Close popup by <Space>.
     "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
-    " For cursor moving in insert mode(Not recommended)
-    "inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
-    "inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
-    "inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
-    "inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
-    " Or set this.
-    "let g:neocomplete#enable_cursor_hold_i = 1
-    " Or set this.
-    "let g:neocomplete#enable_insert_char_pre = 1
-
-    " AutoComplPop like behavior.
-    "let g:neocomplete#enable_auto_select = 1
-
-    " Shell like behavior(not recommended).
-    "set completeopt+=longest
-    "let g:neocomplete#enable_auto_select = 1
-    "let g:neocomplete#disable_auto_complete = 1
-    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
     " Enable omni completion.
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -362,15 +323,12 @@ filetype plugin indent on
     if !exists('g:neocomplete#sources#omni#input_patterns')
       let g:neocomplete#sources#omni#input_patterns = {}
     endif
-    "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-    "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-    "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
     " For perlomni.vim setting.
     " https://github.com/c9s/perlomni.vim
     let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-" NeoSnippets   
+" NeoSnippets
 
     " Plugin key-mappings.
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -387,7 +345,7 @@ filetype plugin indent on
 
     " For snippet_complete marker.
     if has('conceal')
-    set conceallevel=3 concealcursor=niv
+    set conceallevel=2 concealcursor=niv
     endif
 
 " Functions
@@ -473,11 +431,6 @@ filetype plugin indent on
     command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
     " e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
 
-" Auto reload vimrc file
-augroup reload_vimrc 
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
 
 " Filetype mappings
 
