@@ -351,6 +351,8 @@ filetype plugin indent on
     " Get code issues adn syntax errors
     let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
 
+    let g:OmniSharp_selector_ui = 'ctrlp'
+
     augroup omnisharp_commands
         autocmd!
 
