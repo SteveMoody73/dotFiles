@@ -1,4 +1,5 @@
 set nocompatible
+
 filetype off
 
 " Set up Vundle and add plugins
@@ -34,7 +35,6 @@ Plugin 'lanox/lanox-vim-theme'
 Plugin 'acoustichero/simple_dark'
 Plugin 'marciomazza/vim-brogrammer-theme'
 Plugin 'marcopaganini/mojave-vim-theme'
-Plugin 'mkarmona/colorsbox'
 Plugin 'vim-airline/vim-airline-themes'
 
 " Git support
@@ -63,7 +63,6 @@ filetype plugin indent on
     set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
     set encoding=utf-8
-    "set nolist
 
     colorscheme molokai_dark
 
@@ -77,7 +76,8 @@ filetype plugin indent on
 
     if has("gui_running")
         set lines=55 columns=200
-        set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10
+        "set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
+        set guifont=Droid\ Sans\ Mono\ Dotted\ for\ Powe:h11
         set guioptions-=T                   " Remove the tool bar
         set guioptions-=r                   " Remove the right-hand scroll bar
     else
@@ -152,7 +152,7 @@ filetype plugin indent on
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     set foldenable                  " Auto fold code
     set list
-    set listchars=tab:→\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    set listchars=tab:>\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 
 
 " Formatting
@@ -532,5 +532,10 @@ au FileType asm68k setlocal nospell
 augroup XML
     autocmd!
     autocmd FileType xml setlocal foldmethod=indent foldlevelstart=999 foldminlines=0
+augroup END
+
+augroup reload_vimrc
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
