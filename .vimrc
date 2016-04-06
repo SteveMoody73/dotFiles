@@ -151,6 +151,7 @@ filetype plugin indent on
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     set foldenable                  " Auto fold code
+    set foldlevelstart=10           " Open most folds by default
     set list
     set listchars=tab:>\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 
@@ -289,7 +290,8 @@ filetype plugin indent on
     " Set minimum syntax keyword length.
     let g:neocomplete#sources#syntax#min_keyword_length = 4
     let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
+    " Set minimum characters before completion
+    let g:neocomplete#auto_completion_start_length = 3
     " Define dictionary.
     let g:neocomplete#sources#dictionary#dictionaries = {
         \ 'default' : '',
