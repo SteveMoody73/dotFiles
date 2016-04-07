@@ -2,7 +2,7 @@ set nocompatible
 
 filetype off
 
-" Set up Vundle and add plugins
+" Set up Vundle and add plugins {{{
 
 " Set the runtime path to include Vundle and initialise
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -36,6 +36,7 @@ Plugin 'acoustichero/simple_dark'
 Plugin 'marciomazza/vim-brogrammer-theme'
 Plugin 'marcopaganini/mojave-vim-theme'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'sjl/badwolf'
 
 " Git support
 Plugin 'tpope/vim-fugitive'
@@ -54,8 +55,9 @@ Plugin 'tpope/vim-dispatch'
 call vundle#end()
 filetype plugin indent on
 
+" }}}
 
-" General Settings
+" General Settings {{{
 
     set background=dark
     syntax on
@@ -64,12 +66,12 @@ filetype plugin indent on
     scriptencoding utf-8
     set encoding=utf-8
 
-    colorscheme molokai_dark
+    colorscheme badwolf
 
     if has('clipboard')
         if has('unnamedplus')  " When possible use + register for copy-paste
             set clipboard=unnamed,unnamedplus
-        else         " On mac and Windows, use * register for copy-paste
+        else         " On mac and Windows, use * register fnr copy-paste
             set clipboard=unnamed
         endif
     endif
@@ -119,9 +121,9 @@ filetype plugin indent on
         set undolevels=1000         " Maximum number of changes that can be undone
         set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
     endif
+" }}}
 
-" User interface
-
+" User interface {{{
 
     set showmode                    " Display the current mode
     set cursorline                  " Highlight the current line
@@ -151,12 +153,14 @@ filetype plugin indent on
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     set foldenable                  " Auto fold code
+    set foldmethod=marker
     set foldlevelstart=10           " Open most folds by default
     set list
-    set listchars=tab:>\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    set modelines=1
+" }}}
 
-
-" Formatting
+" Formatting {{{
 
     set nowrap                      " Do not wrap long lines
     set autoindent                  " Indent at the same level of the previous line
@@ -172,14 +176,9 @@ filetype plugin indent on
     set nocursorline
     set relativenumber
 
-    autocmd FileType c,cpp,java,go,php,javascript,python,rust,xml,sql autocmd BufWritePre <buffer> call StripTrailingWhitespace()
-    autocmd FileType haskell,ruby setlocal expandtab shiftwidth=2 softtabstop=2
-    autocmd FocusLost set number
-    autocmd FocusGained set relativenumber
+" }}}
 
-    autocmd FileType c,cpp,java,go,php,javascript,python RainbowParenthesesToggleAll
-
-" Key mapping
+" Key mapping {{{
 
     let mapleader = ','
 
@@ -193,13 +192,21 @@ filetype plugin indent on
     vnoremap < <gv
     vnoremap > >gv
 
+    " turn off surch highlighting
+    nnoremap <leader>><space> :nohlsearch<CR>
+
     nmap <F8> :TagbarToggle<CR>
 
+    " move to beginning/end of line
+    nnoremap B ^
+    nnoremap E $
+
+" }}}
 
 " Plugin Configuration
 
+" Ctags {{{
 
-" Ctags
     set tags=./tags;/,~/.vimtags
 
     " Make tags placed in .git/tags file available in all levels of a repository
@@ -209,8 +216,10 @@ filetype plugin indent on
         let &tags = &tags . ',' . gitroot . '/.git/tags'
     endif
 
+" }}}
 
-" NerdTree
+" NerdTree {{{
+
     if isdirectory(expand("~/.vim/bundle/nerdtree"))
         map <C-e> <plug>NERDTreeTabsToggle<CR>
         map <leader>e :NERDTreeFind<CR>
@@ -226,14 +235,17 @@ filetype plugin indent on
         let g:nerdtree_tabs_open_on_gui_startup=0
     endif
 
+" }}}
 
-" TagBar
+" TagBar {{{
     if isdirectory(expand("~/.vim/bundle/tagbar/"))
         nnoremap <silent> <leader>tt :TagbarToggle<CR>
     endif
 
+" }}}
 
-" Fugitive {
+" Fugitive {{{
+
     if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
         nnoremap <silent> <leader>gs :Gstatus<CR>
         nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -248,16 +260,21 @@ filetype plugin indent on
         nnoremap <silent> <leader>gi :Git add -p %<CR>
         nnoremap <silent> <leader>gg :SignifyToggle<CR>
     endif
-"}
 
-" UndoTree
+" }}}
+
+" UndoTree {{{
+
     if isdirectory(expand("~/.vim/bundle/undotree/"))
         nnoremap <Leader>u :UndotreeToggle<CR>
         " If undotree is opened, it is likely one wants to interact with it.
         let g:undotree_SetFocusWhenToggle=1
     endif
 
-" vim-airline
+" }}}
+
+" vim-airline {{{
+
     " See `:echo g:airline_theme_map` for some more choices
     " Default in terminal vim is 'dark'
     if isdirectory(expand("~/.vim/bundle/vim-airline/"))
@@ -267,19 +284,16 @@ filetype plugin indent on
         let g:airline_enable_branch=1
         let g:airline_enable_syntastic=1
         let g:airline_powerline_fonts = 1
-        "let g:airline_left_sep = ''
-        "let g:airline_right_sep = ''
-        "let g:airline_linecolumn_prefix = '␊ '
-        "let g:airline_linecolumn_prefix = '␤ '
         let g:airline_linecolumn_prefix = '¶ '
-        "let g:airline_branch_prefix = '⎇ '
         let g:airline_paste_symbol = 'ρ'
         let g:airline_paste_symbol = 'Þ'
         let g:airline_paste_symbol = '∥'
         let g:airline#extensions#tabline#enabled = 0
     endif
 
-" NeoComplete
+" }}}
+
+" NeoComplete {{{
 
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
@@ -345,7 +359,9 @@ filetype plugin indent on
     let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
     let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
 
-" OmniSharp
+" }}}
+
+" OmniSharp {{{
 
     " Timeout in seconds to wait for a response from the server
     let g:OmniSharp_timeout = 1
@@ -416,7 +432,9 @@ filetype plugin indent on
     " Add syntax highlighting for types and interfaces
     nnoremap <leader>th :OmniSharpHighlightTypes<cr>
 
-" NeoSnippets
+" }}}
+
+" NeoSnippets {{{
 
     " Plugin key-mappings.
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -436,13 +454,17 @@ filetype plugin indent on
     set conceallevel=2 concealcursor=niv
     endif
 
-    " CTRL-P
+" }}}
+
+" CTRL-P {{{
+
     let g:ctrlp_map = '<C-p>'
     let g:ctrlp_cmd = 'CtrlP'
     let g:ctrlp_working_path_mode = 'ra'
 
+" }}}
 
-" Functions
+" Functions {{{
 
     " Initialize directories
     function! InitializeDirectories()
@@ -525,19 +547,30 @@ filetype plugin indent on
     command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
     " e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
 
+" }}}
 
-" Filetype mappings
+" Filetype mappings {{{
 
-au BufRead,BufNewFile *.x68,*.X68,*.s,*.asm setlocal filetype=asm68k
-au FileType asm68k setlocal nospell
+    autocmd FileType c,cpp,java,go,php,javascript,python,rust,xml,sql autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+    autocmd FileType haskell,ruby setlocal expandtab shiftwidth=2 softtabstop=2
+    autocmd FocusLost set number
+    autocmd FocusGained set relativenumber
 
-augroup XML
-    autocmd!
-    autocmd FileType xml setlocal foldmethod=indent foldlevelstart=999 foldminlines=0
-augroup END
+    autocmd FileType c,cpp,java,go,php,javascript,python RainbowParenthesesToggleAll
 
-augroup reload_vimrc
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
+    au BufRead,BufNewFile *.x68,*.X68,*.s,*.asm setlocal filetype=asm68k
+    au FileType asm68k setlocal nospell
 
+    augroup XML
+        autocmd!
+        autocmd FileType xml setlocal foldmethod=indent foldlevelstart=999 foldminlines=0
+    augroup END
+
+    augroup reload_vimrc
+        autocmd!
+        autocmd BufWritePost $MYVIMRC source $MYVIMRC
+    augroup END
+
+" }}}
+
+" vim:foldmethod=marker:foldlevel=0
