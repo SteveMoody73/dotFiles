@@ -48,7 +48,7 @@ Plugin 'xolox/vim-shell'
 " Language support
 Plugin 'rust-lang/rust.vim'
 Plugin 'fatih/vim-go'
-Plugin 'OmniSharp/omnisharp-vim'
+"Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-dispatch'
 

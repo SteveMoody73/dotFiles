@@ -1,0 +1,14 @@
+-- General
+
+    Show Character code: ga
+
+
+
+-- Navigation
+
+
+
+-- Editing
+
+    Delete all in parentheses
+
