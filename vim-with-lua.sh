@@ -6,13 +6,13 @@ sudo apt-get install liblua5.1-dev luajit libluajit-5.1 python-dev ruby-dev libp
 sudo mkdir /usr/include/lua5.1/include
 sudo ln -s /usr/include/luajit-2.0 /usr/include/lua5.1/include
  
-#git clone https://github.com/vim/vim.git
-#cd vim/src
+git clone https://github.com/vim/vim.git
+cd vim/src
 
-cd vim
-git reset --hard
-git pull
-cd src
+#cd vim
+#git reset --hard
+#git pull
+#cd src
 
 make distclean
 ./configure --with-features=huge \
