@@ -26,6 +26,7 @@ Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-characterize'
+Plugin 'tpope/vim-surround'
 
 " Themes
 Plugin 'sickill/vim-monokai'
@@ -48,16 +49,17 @@ Plugin 'xolox/vim-shell'
 " Language support
 Plugin 'rust-lang/rust.vim'
 Plugin 'fatih/vim-go'
-"Plugin 'OmniSharp/omnisharp-vim'
+Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-dispatch'
+Plugin 'klen/python-mode'
 
 call vundle#end()
 filetype plugin indent on
 
 " }}}
 
-" General Settings {{{
+"  General Settings {{{
 
     set background=dark
     syntax on
@@ -90,7 +92,7 @@ filetype plugin indent on
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
     set virtualedit=onemore             " Allow for cursor beyond last character
     set history=1000                    " Store a ton of history (default is 20)
-    set spell                           " Spell checking on
+    set nospell                         " Spell checking off
     set hidden                          " Allow buffer switching without saving
     set iskeyword-=.                    " '.' is an end of word designator
     set iskeyword-=#                    " '#' is an end of word designator
@@ -123,7 +125,7 @@ filetype plugin indent on
     endif
 " }}}
 
-" User interface {{{
+ " User interface {{{
 
     set showmode                    " Display the current mode
     set cursorline                  " Highlight the current line
@@ -200,6 +202,9 @@ filetype plugin indent on
     " move to beginning/end of line
     nnoremap B ^
     nnoremap E $
+
+    " Enable folding with the space bar
+    nnoremap <space> za
 
 " }}}
 
@@ -464,6 +469,55 @@ filetype plugin indent on
 
 " }}}
 
+" Python-mode {{{
+    " Activate rope
+    " Keys:
+    " P             Show python docs
+    " <Ctrl-Space>  Rope autocomplete
+    " <Ctrl-c>g     Rope goto definition
+    " <Ctrl-c>d     Rope show documentation
+    " <Ctrl-c>f     Rope find occurrences
+    " <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
+    " [[            Jump on previous class or function (normal, visual, operator
+    " modes)
+    " ]]            Jump on next class or function (normal, visual, operator
+    " modes)
+    " [M            Jump on previous class or method (normal, visual, operator
+    " modes)
+    " ]M            Jump on next class or method (normal, visual, operator modes)
+    let g:pymode_rope = 1
+
+    " Documentation
+    let g:pymode_doc = 1
+    let g:pymode_doc_key = 'P'
+
+    "Linting
+    let g:pymode_lint = 1
+    let g:pymode_lint_checker = "pyflakes,pep8"
+    " Auto check on save
+    let g:pymode_lint_write = 1
+
+    " Support virtualenv
+    let g:pymode_virtualenv = 1
+
+    " Enable breakpoints plugin
+    let g:pymode_breakpoint = 1
+    let g:pymode_breakpoint_bind = '<leader>b'
+
+    " syntax highlighting
+    let g:pymode_syntax = 1
+    let g:pymode_syntax_all = 1
+    let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+    let g:pymode_syntax_space_errors = g:pymode_syntax_all
+    
+
+    " Don't autofold code
+    let g:pymode_folding = 0
+
+    let g:pymode_options_max_line_length=119
+
+" }}}
+
 " Functions {{{
 
     " Initialize directories
@@ -549,7 +603,7 @@ filetype plugin indent on
 
 " }}}
 
-" Filetype mappings {{{
+ " Filetype mappings {{{
 
     autocmd FileType c,cpp,java,go,php,javascript,python,rust,xml,sql autocmd BufWritePre <buffer> call StripTrailingWhitespace()
     autocmd FileType haskell,ruby setlocal expandtab shiftwidth=2 softtabstop=2
@@ -570,6 +624,14 @@ filetype plugin indent on
         autocmd!
         autocmd BufWritePost $MYVIMRC source $MYVIMRC
     augroup END
+
+    " Python related
+    autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab autoindent fileformat=unix
+    let python_hightlight_all=1
+    autocmd FileType python highlight Excess ctermbg=Black guibg=Black
+    autocmd FileType python match Excess /\%120v.*/
+    autocmd FileType python set nowrap
+
 
 " }}}
 
