@@ -206,6 +206,9 @@ filetype plugin indent on
     " Enable folding with the space bar
     nnoremap <space> za
 
+    " Use <leader>l to toggle display of whitespace
+    nmap <leader>l :set list!<CR>
+
 " }}}
 
 " Plugin Configuration
