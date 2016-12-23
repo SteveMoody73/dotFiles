@@ -44,7 +44,7 @@
     excludesfile = $HOME/.gitignore
     fscache = true
     editor = vim
-	autocrlf = true
+	autocrlf = input
 	safecrlf = false
 [format]
     pretty = %C(cyan)%h%C(green) %an\t%Creset%s
