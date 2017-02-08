@@ -63,8 +63,6 @@ filetype plugin indent on
 
     set background=dark
     syntax on
-    set mouse=a                 " Enable mouse usage
-    set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
     set encoding=utf-8
 
