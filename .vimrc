@@ -38,6 +38,7 @@ Plugin 'marciomazza/vim-brogrammer-theme'
 Plugin 'marcopaganini/mojave-vim-theme'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sjl/badwolf'
+Plugin 'morhetz/gruvbox'
 
 " Git support
 Plugin 'tpope/vim-fugitive'
@@ -66,8 +67,10 @@ filetype plugin indent on
     scriptencoding utf-8
     set encoding=utf-8
 
-    if isdirectory(expand("~/.vim/bundle/badwolf"))
-    	colorscheme badwolf
+    set termguicolors
+
+    if isdirectory(expand("~/.vim/bundle/gruvbox"))
+    	colorscheme gruvbox
     endif
 
     if has('clipboard')
