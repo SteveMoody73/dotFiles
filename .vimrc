@@ -54,6 +54,9 @@ Plugin 'fatih/vim-go'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-dispatch'
 Plugin 'klen/python-mode'
+Plugin 'parkr/vim-jekyll'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'hail2u/vim-css3-syntax'
 
 call vundle#end()
 filetype plugin indent on
@@ -638,6 +641,8 @@ filetype plugin indent on
     autocmd FileType python match Excess /\%120v.*/
     autocmd FileType python set nowrap
 
+    au BufRead,BufNewFile *.scss set filetype=scss.css
+    autocmd FileType scss set iskeyword+=-
 
 " }}}
 
