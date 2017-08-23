@@ -30,3 +30,6 @@ make VIMRUNTIMEDIR=/usr/share/vim/vim74
 
 sudo apt-get install checkinstall
 sudo checkinstall
+sudo mkdir /usr/share/vim/vim74
+sudo cp -fr runtime/* /usr/share/vim/vim74/
+
