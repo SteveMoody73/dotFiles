@@ -1,35 +1,36 @@
-# Remove previous installations
-sudo apt-get remove vim vim-runtime vim-tiny vim-common
+I needed to install vim with lua support because I wanted to use neocomplete in my recently installed 15.04 distro. Also, this has python3 enabled by default.
 
-# Install dependencies
-sudo apt-get install libncurses5-dev python-dev libperl-dev ruby-dev liblua5.2-dev
+Tested on 16.04 now
 
-# Fix liblua paths
-sudo ln -s /usr/include/lua5.2 /usr/include/lua
-sudo ln -s /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/local/lib/liblua.so
+Update: This has been tested and verified to work on Ubuntu 16.04 as well. Also, if you wish to use particular branch/tag, you can get the version and then checkout appropriately.
+The following (based upon https://gist.github.com/jdewit/9818870) should work though I copied it from history:
 
-# Clone vim sources
-cd ~
+sudo apt-get remove --purge vim vim-runtime vim-gnome vim-tiny vim-common vim-gui-common
+sudo apt-get build-dep vim-gnome
+sudo apt-get install build-essential liblua5.3-0 liblua5.3-dev python-dev ruby-dev libperl-dev libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev
+sudo rm -rf /usr/local/share/vim /usr/bin/vim /usr/local/bin/vim
+sudo mkdir /usr/include/lua5.3/{include,lib}
+sudo cp /usr/include/lua5.3/*.h /usr/include/lua5.3/include/
+sudo ln -sf /usr/lib/x86_64-linux-gnu/liblua5.3.so /usr/include/lua5.3/lib/liblua.so
+sudo ln -sf /usr/lib/x86_64-linux-gnu/liblua5.3.a /usr/include/lua5.3/lib/liblua.a
+cd /tmp
 git clone https://github.com/vim/vim.git
-
 cd vim
-./configure --prefix=/usr     \
-    --enable-luainterp=yes    \
-    --enable-perlinterp=yes   \
-    --enable-pythoninterp=yes \
-    --enable-rubyinterp=yes   \
-    --enable-cscope           \
-    --disable-netbeans        \
-    --enable-multibyte        \
-    --enable-largefile        \
-    --enable-gui=no           \
-    --with-features=huge      \
-    --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu
-
-make VIMRUNTIMEDIR=/usr/share/vim/vim74
-
-sudo apt-get install checkinstall
-sudo checkinstall
-sudo mkdir /usr/share/vim/vim74
-sudo cp -fr runtime/* /usr/share/vim/vim74/
+git checkout v8.0.0503
+make distclean
+./configure --with-features=huge \
+            --enable-rubyinterp \
+            --enable-largefile \
+            --disable-netbeans \
+            --enable-python3interp \
+            --with-python-config-dir=$(python3-config --configdir) \
+            --enable-perlinterp \
+            --enable-luainterp \
+            --enable-gui=auto \
+            --enable-fail-if-missing \
+            --with-lua-prefix=/usr/include/lua5.3 \
+            --enable-cscope \
+            --enable-multibyte
+make
+sudo make install
 
