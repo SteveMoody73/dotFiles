@@ -31,11 +31,6 @@ Plugin 'tpope/vim-surround'
 " Themes
 Plugin 'sickill/vim-monokai'
 Plugin 'fcevado/molokai_dark'
-Plugin 'notpratheek/vim-luna'
-Plugin 'lanox/lanox-vim-theme'
-Plugin 'acoustichero/simple_dark'
-Plugin 'marciomazza/vim-brogrammer-theme'
-Plugin 'marcopaganini/mojave-vim-theme'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sjl/badwolf'
 Plugin 'morhetz/gruvbox'
@@ -72,8 +67,8 @@ filetype plugin indent on
 
     set termguicolors
 
-    if isdirectory(expand("~/.vim/bundle/gruvbox"))
-    	colorscheme gruvbox
+    if isdirectory(expand("~/.vim/bundle/badwolf"))
+        colorscheme badwolf
     endif
 
     if has('clipboard')
@@ -164,8 +159,9 @@ filetype plugin indent on
     set foldmethod=marker
     set foldlevelstart=10           " Open most folds by default
     set list
-    set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
     set modelines=1
+
 " }}}
 
 " Formatting {{{
@@ -201,7 +197,7 @@ filetype plugin indent on
     vnoremap > >gv
 
     " turn off surch highlighting
-    nnoremap <leader>><space> :nohlsearch<CR>
+    nnoremap <leader>. :nohlsearch<CR>
 
     nmap <F8> :TagbarToggle<CR>
 
@@ -209,10 +205,6 @@ filetype plugin indent on
     nnoremap B ^
     nnoremap E $
 
-    " Enable folding with the space bar
-    nnoremap <space> za
-
-    " Use <leader>l to toggle display of whitespace
     nmap <leader>l :set list!<CR>
 
 " }}}
@@ -355,14 +347,6 @@ filetype plugin indent on
     " Close popup by <Space>.
     "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
-
     " Enable heavy omni completion.
     if !exists('g:neocomplete#sources#omni#input_patterns')
       let g:neocomplete#sources#omni#input_patterns = {}
@@ -372,79 +356,6 @@ filetype plugin indent on
     " https://github.com/c9s/perlomni.vim
     let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
     let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
-
-" }}}
-
-" OmniSharp {{{
-
-    " Timeout in seconds to wait for a response from the server
-    let g:OmniSharp_timeout = 1
-
-    " Get code issues adn syntax errors
-    let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
-
-    let g:OmniSharp_selector_ui = 'ctrlp'
-
-    augroup omnisharp_commands
-        autocmd!
-
-        " Builds can run asynchronously with vim-dispatch installed
-        autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
-        " Automatic syntax checks on events
-        autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
-
-        " Automatically add new cs files to the nearest project on save
-        autocmd BufWritePost *.cs call OmniSharp#AddToProject()
-
-        " Show type information automatically when the cursor stops moving
-        autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
-
-        "The following commands are contextual, based on the current cursor position.
-
-        autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
-        autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-        autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
-        autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-        autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
-        "finds members in the current buffer
-        autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
-        " cursor can be anywhere on the line containing an issue
-        autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
-        autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
-        autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-        autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
-        "navigate up by method/property/field
-        autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
-        "navigate down by method/property/field
-        autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
-    augroup END
-
-    " this setting controls how long to wait (in ms) before fetching type / symbol information.
-    set updatetime=500
-
-    " Contextual code actions (requires CtrlP or unite.vim)
-    nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-    " Run code actions with text selected in visual mode to extract method
-    vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
-
-    " rename with dialog
-    nnoremap <leader>nm :OmniSharpRename<cr>
-    nnoremap <F2> :OmniSharpRename<cr>
-    " rename without dialog - with cursor on the symbol to rename... ':Rename newname'
-    command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-
-    " Force OmniSharp to reload the solution. Useful when switching branches etc.
-    nnoremap <leader>rl :OmniSharpReloadSolution<cr>
-    nnoremap <leader>cf :OmniSharpCodeFormat<cr>
-    " Load the current .cs file to the nearest project
-    nnoremap <leader>tp :OmniSharpAddToProject<cr>
-
-    " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
-    nnoremap <leader>ss :OmniSharpStartServer<cr>
-    nnoremap <leader>sp :OmniSharpStopServer<cr>
-
-    " Add syntax highlighting for types and interfaces
-    nnoremap <leader>th :OmniSharpHighlightTypes<cr>
 
 " }}}
 
@@ -518,7 +429,7 @@ filetype plugin indent on
     let g:pymode_syntax_all = 1
     let g:pymode_syntax_indent_errors = g:pymode_syntax_all
     let g:pymode_syntax_space_errors = g:pymode_syntax_all
-    
+
 
     " Don't autofold code
     let g:pymode_folding = 0
