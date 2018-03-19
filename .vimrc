@@ -79,8 +79,11 @@ filetype plugin indent on
 
     if has("gui_running")
         set lines=55 columns=200
-        "set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
-        set guifont="Droid Sans Mono Dotted for Powerline 11"
+		if has("win32")
+			set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10
+		else
+			set guifont="Droid Sans Mono Dotted for Powerline 10"
+		endif		        
         set guioptions-=T                   " Remove the tool bar
         set guioptions-=r                   " Remove the right-hand scroll bar
     else
