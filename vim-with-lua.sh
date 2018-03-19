@@ -1,10 +1,3 @@
-I needed to install vim with lua support because I wanted to use neocomplete in my recently installed 15.04 distro. Also, this has python3 enabled by default.
-
-Tested on 16.04 now
-
-Update: This has been tested and verified to work on Ubuntu 16.04 as well. Also, if you wish to use particular branch/tag, you can get the version and then checkout appropriately.
-The following (based upon https://gist.github.com/jdewit/9818870) should work though I copied it from history:
-
 sudo apt-get remove --purge vim vim-runtime vim-gnome vim-tiny vim-common vim-gui-common
 sudo apt-get build-dep vim-gnome
 sudo apt-get install build-essential liblua5.3-0 liblua5.3-dev python-dev ruby-dev libperl-dev libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev
