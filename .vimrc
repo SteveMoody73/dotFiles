@@ -662,7 +662,7 @@ call vundle#end()
     autocmd FocusLost set number
     autocmd FocusGained set relativenumber
 
-    autocmd FileType c,cpp,java,go,php,javascript,python RainbowParenthesesToggleAll
+"    autocmd FileType c,cpp,java,go,php,javascript,python RainbowParenthesesToggleAll
 
     au BufRead,BufNewFile *.x68,*.X68,*.s,*.asm setlocal filetype=asm68k
     au FileType asm68k setlocal nospell
