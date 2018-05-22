@@ -58,7 +58,6 @@ Plugin 'bling/vim-airline'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'powerline/fonts'
-Plugin 'bling/vim-bufferline'
 
 Plugin 'rhysd/conflict-marker.vim'
 Plugin 'mbbill/undotree'
