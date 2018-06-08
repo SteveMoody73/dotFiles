@@ -1,49 +1,8 @@
-" Modeline and Notes {
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
-"
-" }
-
-" Environment {
-
-    " Identify platform {
-        silent function! OSX()
-            return has('macunix')
-        endfunction
-        silent function! LINUX()
-            return has('unix') && !has('macunix') && !has('win32unix')
-        endfunction
-        silent function! WINDOWS()
-            return  (has('win32') || has('win64'))
-        endfunction
-    " }
-
-    " Basics {
-        set nocompatible        " Must be first line
-        if !WINDOWS()
-            set shell=/bin/sh
-        endif
-    " }
-
-    " Windows Compatible {
-        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-        " across (heterogeneous) systems easier.
-        if WINDOWS()
-          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-        endif
-    " }
-    
-    " Arrow Key Fix {
-        " https://github.com/spf13/spf13-vim/issues/780
-        if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
-            inoremap <silent> <C-[>OC <RIGHT>
-        endif
-    " }
-
-" }
+set nocompatible
 
 filetype off
 
-" Set up Vundle and add plugins {
+" Set up Vundle and add plugins {{{
 
 " Set the runtime path to include Vundle and initialise
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -56,33 +15,23 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bling/vim-airline'
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'powerline/fonts'
-
-Plugin 'rhysd/conflict-marker.vim'
 Plugin 'mbbill/undotree'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tacahiroy/ctrlp-funky'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-abolish.git'
-
 if executable('ctags')
     Bundle 'majutsushi/tagbar'
 endif
-Plugin 'luochen1990/rainbow'
+Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'Shougo/neocomplete.vim.git'
 Plugin 'Shougo/neosnippet'
 Plugin 'Shougo/neosnippet-snippets'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-characterize'
 Plugin 'tpope/vim-surround'
 
 " Themes
 Plugin 'sickill/vim-monokai'
 Plugin 'fcevado/molokai_dark'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sjl/badwolf'
 Plugin 'morhetz/gruvbox'
 
@@ -96,23 +45,23 @@ Plugin 'xolox/vim-shell'
 " Language support
 Plugin 'rust-lang/rust.vim'
 Plugin 'fatih/vim-go'
+"Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-dispatch'
 Plugin 'klen/python-mode'
 Plugin 'parkr/vim-jekyll'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'hail2u/vim-css3-syntax'
-Plugin 'tpope/vim-markdown'
 
 call vundle#end()
+filetype plugin indent on
 
-" }
+" }}}
 
-"  General Settings {
+"  General Settings {{{
 
-    filetype plugin indent on           " Automatically detect file types
     set background=dark
-    syntax on                           " Syntax highlighting
+    syntax on
     scriptencoding utf-8
     set encoding=utf-8
 
@@ -130,11 +79,8 @@ call vundle#end()
 
     if has("gui_running")
         set lines=55 columns=200
-		if has("win32")
-			set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10
-		else
-			set guifont="Droid Sans Mono Dotted for Powerline 10"
-		endif		        
+        "set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
+        set guifont=Droid\ Sans\ Mono\ Dotted\ for\ Powe:h11
         set guioptions-=T                   " Remove the tool bar
         set guioptions-=r                   " Remove the right-hand scroll bar
     else
@@ -176,9 +122,9 @@ call vundle#end()
         set undolevels=1000         " Maximum number of changes that can be undone
         set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
     endif
-" }
+" }}}
 
- " User interface {
+ " User interface {{{
 
     set showmode                    " Display the current mode
     set cursorline                  " Highlight the current line
@@ -191,18 +137,6 @@ call vundle#end()
         set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
         set showcmd                 " Show partial commands in status line and
                                     " Selected characters/lines in visual mode
-    endif
-
-    if has('statusline')
-        set laststatus=2
-
-        " Broken down into easily includeable segments
-        set statusline=%<%f\                     " Filename
-        set statusline+=%w%h%m%r                 " Options
-        set statusline+=%{fugitive#statusline()} " Git Hotness
-        set statusline+=\ [%{&ff}/%Y]            " Filetype
-        set statusline+=\ [%{getcwd()}]          " Current dir
-        set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
     endif
 
     set backspace=indent,eol,start  " Backspace for dummies
@@ -226,9 +160,9 @@ call vundle#end()
     set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
     set modelines=1
 
-" }
+" }}}
 
-" Formatting {
+" Formatting {{{
 
     set nowrap                      " Do not wrap long lines
     set autoindent                  " Indent at the same level of the previous line
@@ -244,9 +178,9 @@ call vundle#end()
     set nocursorline
     set relativenumber
 
-" }
+" }}}
 
-" Key mapping {
+" Key mapping {{{
 
     let mapleader = ','
 
@@ -271,44 +205,11 @@ call vundle#end()
 
     nmap <leader>l :set list!<CR>
 
-    if has("user_commands")
-        command! -bang -nargs=* -complete=file E e<bang> <args>
-        command! -bang -nargs=* -complete=file W w<bang> <args>
-        command! -bang -nargs=* -complete=file Wq wq<bang> <args>
-        command! -bang -nargs=* -complete=file WQ wq<bang> <args>
-        command! -bang Wa wa<bang>
-        command! -bang WA wa<bang>
-        command! -bang Q q<bang>
-        command! -bang QA qa<bang>
-        command! -bang Qa qa<bang>
-    endif
-
-    " Yank from the cursor to the end of the line, to be consistent with C and D.
-    nnoremap Y y$
-
-    " Code folding options
-    nmap <leader>f0 :set foldlevel=0<CR>
-    nmap <leader>f1 :set foldlevel=1<CR>
-    nmap <leader>f2 :set foldlevel=2<CR>
-    nmap <leader>f3 :set foldlevel=3<CR>
-    nmap <leader>f4 :set foldlevel=4<CR>
-    nmap <leader>f5 :set foldlevel=5<CR>
-    nmap <leader>f6 :set foldlevel=6<CR>
-    nmap <leader>f7 :set foldlevel=7<CR>
-    nmap <leader>f8 :set foldlevel=8<CR>
-    nmap <leader>f9 :set foldlevel=9<CR>
-
-    " For when you forget to sudo.. Really Write the file.
-    cmap w!! w !sudo tee % >/dev/null
-    " Easier horizontal scrolling
-    map zl zL
-    map zh zH
-
-" }
+" }}}
 
 " Plugin Configuration
 
-" Ctags {
+" Ctags {{{
 
     set tags=./tags;/,~/.vimtags
 
@@ -319,9 +220,9 @@ call vundle#end()
         let &tags = &tags . ',' . gitroot . '/.git/tags'
     endif
 
-" }
+" }}}
 
-" NerdTree {
+" NerdTree {{{
 
     if isdirectory(expand("~/.vim/bundle/nerdtree"))
         map <C-e> <plug>NERDTreeTabsToggle<CR>
@@ -338,36 +239,16 @@ call vundle#end()
         let g:nerdtree_tabs_open_on_gui_startup=0
     endif
 
-" }
-    
-" GoLang {
-    let g:go_highlight_functions = 1
-    let g:go_highlight_methods = 1
-    let g:go_highlight_structs = 1
-    let g:go_highlight_operators = 1
-    let g:go_highlight_build_constraints = 1
-    let g:go_fmt_command = "goimports"
-    let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-    let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-    au FileType go nmap <Leader>s <Plug>(go-implements)
-    au FileType go nmap <Leader>i <Plug>(go-info)
-    au FileType go nmap <Leader>e <Plug>(go-rename)
-    au FileType go nmap <leader>r <Plug>(go-run)
-    au FileType go nmap <leader>b <Plug>(go-build)
-    au FileType go nmap <leader>t <Plug>(go-test)
-    au FileType go nmap <Leader>gd <Plug>(go-doc)
-    au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-    au FileType go nmap <leader>co <Plug>(go-coverage)
-" }
+" }}}
 
-" TagBar {
+" TagBar {{{
     if isdirectory(expand("~/.vim/bundle/tagbar/"))
         nnoremap <silent> <leader>tt :TagbarToggle<CR>
     endif
 
-" }
+" }}}
 
-" Fugitive {
+" Fugitive {{{
 
     if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
         nnoremap <silent> <leader>gs :Gstatus<CR>
@@ -384,17 +265,9 @@ call vundle#end()
         nnoremap <silent> <leader>gg :SignifyToggle<CR>
     endif
 
-" }
+" }}}
 
-" indent_guides {
-    if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
-        let g:indent_guides_start_level = 2
-        let g:indent_guides_guide_size = 1
-        let g:indent_guides_enable_on_vim_startup = 1
-    endif
-" }
-
-" UndoTree {
+" UndoTree {{{
 
     if isdirectory(expand("~/.vim/bundle/undotree/"))
         nnoremap <Leader>u :UndotreeToggle<CR>
@@ -402,9 +275,9 @@ call vundle#end()
         let g:undotree_SetFocusWhenToggle=1
     endif
 
-" }
+" }}}
 
-" vim-airline {
+" vim-airline {{{
 
     " See `:echo g:airline_theme_map` for some more choices
     " Default in terminal vim is 'dark'
@@ -422,15 +295,9 @@ call vundle#end()
         let g:airline#extensions#tabline#enabled = 0
     endif
 
-" }
+" }}}
 
-" Rainbow {
-    if isdirectory(expand("~/.vim/bundle/rainbow/"))
-        let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
-    endif
-"}
-
-" NeoComplete {
+" NeoComplete {{{
 
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
@@ -488,9 +355,9 @@ call vundle#end()
     let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
     let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
 
-" }
+" }}}
 
-" NeoSnippets {
+" NeoSnippets {{{
 
     " Plugin key-mappings.
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -510,17 +377,17 @@ call vundle#end()
     set conceallevel=2 concealcursor=niv
     endif
 
-" }
+" }}}
 
-" CTRL-P {
+" CTRL-P {{{
 
     let g:ctrlp_map = '<C-p>'
     let g:ctrlp_cmd = 'CtrlP'
     let g:ctrlp_working_path_mode = 'ra'
 
-" }
+" }}}
 
-" Python-mode {
+" Python-mode {{{
     " Activate rope
     " Keys:
     " P             Show python docs
@@ -567,9 +434,9 @@ call vundle#end()
 
     let g:pymode_options_max_line_length=119
 
-" }
+" }}}
 
-" Functions {
+" Functions {{{
 
     " Initialize directories
     function! InitializeDirectories()
@@ -652,16 +519,16 @@ call vundle#end()
     command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
     " e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
 
-" }
+" }}}
 
- " Filetype mappings {
+ " Filetype mappings {{{
 
-    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+    autocmd FileType c,cpp,java,go,php,javascript,python,rust,xml,sql autocmd BufWritePre <buffer> call StripTrailingWhitespace()
     autocmd FileType haskell,ruby setlocal expandtab shiftwidth=2 softtabstop=2
     autocmd FocusLost set number
     autocmd FocusGained set relativenumber
 
-"    autocmd FileType c,cpp,java,go,php,javascript,python RainbowParenthesesToggleAll
+    autocmd FileType c,cpp,java,go,php,javascript,python RainbowParenthesesToggleAll
 
     au BufRead,BufNewFile *.x68,*.X68,*.s,*.asm setlocal filetype=asm68k
     au FileType asm68k setlocal nospell
@@ -686,6 +553,6 @@ call vundle#end()
     au BufRead,BufNewFile *.scss set filetype=scss.css
     autocmd FileType scss set iskeyword+=-
 
-" }
+" }}}
 
 " vim:foldmethod=marker:foldlevel=0
