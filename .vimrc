@@ -17,36 +17,23 @@ Plugin 'bling/vim-airline'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'mbbill/undotree'
 Plugin 'scrooloose/nerdcommenter'
-if executable('ctags')
-    Bundle 'majutsushi/tagbar'
-endif
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tpope/vim-characterize'
-Plugin 'tpope/vim-surround'
 Plugin 'Valloric/YouCompleteMe'
 
 " Themes
-Plugin 'sickill/vim-monokai'
-Plugin 'fcevado/molokai_dark'
-Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sjl/badwolf'
-Plugin 'morhetz/gruvbox'
 
 " Git support
+Plugin 'tpope/vim-characterize'
+Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-git'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-shell'
+Plugin 'tpope/vim-dispatch'
 
 " Language support
-Plugin 'rust-lang/rust.vim'
-Plugin 'fatih/vim-go'
-"Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-dispatch'
-Plugin 'klen/python-mode'
 Plugin 'parkr/vim-jekyll'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'hail2u/vim-css3-syntax'
@@ -207,19 +194,6 @@ filetype plugin indent on
 
 " Plugin Configuration
 
-" Ctags {{{
-
-    set tags=./tags;/,~/.vimtags
-
-    " Make tags placed in .git/tags file available in all levels of a repository
-    let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
-    if gitroot != ''
-
-        let &tags = &tags . ',' . gitroot . '/.git/tags'
-    endif
-
-" }}}
-
 " NerdTree {{{
 
     if isdirectory(expand("~/.vim/bundle/nerdtree"))
@@ -235,13 +209,6 @@ filetype plugin indent on
         let NERDTreeShowHidden=1
         let NERDTreeKeepTreeInNewTab=1
         let g:nerdtree_tabs_open_on_gui_startup=0
-    endif
-
-" }}}
-
-" TagBar {{{
-    if isdirectory(expand("~/.vim/bundle/tagbar/"))
-        nnoremap <silent> <leader>tt :TagbarToggle<CR>
     endif
 
 " }}}
@@ -303,53 +270,29 @@ filetype plugin indent on
 
 " }}}
 
-" Python-mode {{{
-    " Activate rope
-    " Keys:
-    " P             Show python docs
-    " <Ctrl-Space>  Rope autocomplete
-    " <Ctrl-c>g     Rope goto definition
-    " <Ctrl-c>d     Rope show documentation
-    " <Ctrl-c>f     Rope find occurrences
-    " <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
-    " [[            Jump on previous class or function (normal, visual, operator
-    " modes)
-    " ]]            Jump on next class or function (normal, visual, operator
-    " modes)
-    " [M            Jump on previous class or method (normal, visual, operator
-    " modes)
-    " ]M            Jump on next class or method (normal, visual, operator modes)
-    let g:pymode_rope = 1
+" OmniComplete {{{
+    if has("autocmd") && exists("+omnifunc")
+        autocmd Filetype *
+            \if &omnifunc == "" |
+            \setlocal omnifunc=syntaxcomplete#Complete |
+            \endif
+    endif
 
-    " Documentation
-    let g:pymode_doc = 1
-    let g:pymode_doc_key = 'P'
+    hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
+    hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
+    hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
-    "Linting
-    let g:pymode_lint = 1
-    let g:pymode_lint_checker = "pyflakes,pep8"
-    " Auto check on save
-    let g:pymode_lint_write = 1
+    " Some convenient mappings
+    "inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+    "inoremap <expr> <CR>     pumvisible() ? "\<C-y>" : "\<CR>"
+    inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+    inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+    inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+    inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
 
-    " Support virtualenv
-    let g:pymode_virtualenv = 1
-
-    " Enable breakpoints plugin
-    let g:pymode_breakpoint = 1
-    let g:pymode_breakpoint_bind = '<leader>b'
-
-    " syntax highlighting
-    let g:pymode_syntax = 1
-    let g:pymode_syntax_all = 1
-    let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-    let g:pymode_syntax_space_errors = g:pymode_syntax_all
-
-
-    " Don't autofold code
-    let g:pymode_folding = 0
-
-    let g:pymode_options_max_line_length=119
-
+    " Automatically open and close the popup menu / preview window
+    au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+    set completeopt=menu,preview,longest
 " }}}
 
 " Functions {{{
