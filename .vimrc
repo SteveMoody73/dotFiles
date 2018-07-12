@@ -23,6 +23,7 @@ Plugin 'Valloric/YouCompleteMe'
 
 " Themes
 Plugin 'sjl/badwolf'
+Plugin 'vim-airline/vim-airline-themes'
 
 " Git support
 Plugin 'tpope/vim-characterize'
