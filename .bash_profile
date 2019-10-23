@@ -1,6 +1,6 @@
-# Load ~/.extra, ~/.bash_prompt, ~/.exports, ~/.aliases, and ~/.functions
+# Load ~/.exports, ~/.aliases
 # ~/.extra can be used for settings you don’t want to commit
-for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do
+for file in ~/.{exports,aliases}; do
 	[ -r "$file" ] && source "$file"
 done
 unset file
@@ -28,15 +28,21 @@ export LANG="en_GB"
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
 
-# Add `killall` tab completion for common apps
-complete -o "nospace" -W "Finder Dock Mail Safari iTunes iCal Address\ Book SystemUIServer" killall
-
 if [ -f /usr/local/etc/bash_completion ]; then
   . /usr/local/etc/bash_completion
 fi
 
-source ~/.git-prompt.sh
+# install powerline-go: go get -u github.com/justjanne/powerline-go
+GOPATH=$HOME/go
+function _update_ps1() {
+        PS1="$($GOPATH/bin/powerline-go -error $?)"
+}
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
 
-export PATH=/opt/m68k/bin:$PATH
 
-export PATH="/usr/local/sbin:$PATH"
+export PATH=/opt/m68k-elf/bin:$PATH
+export PATH="/usr/local/sbin:$PATH:$HOME/bin"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
