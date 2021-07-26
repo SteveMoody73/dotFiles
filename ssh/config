@@ -1,0 +1,12 @@
+# Default github account: ddraig68k
+Host github.com
+   HostName github.com
+   IdentityFile ~/.ssh/id_github
+   IdentitiesOnly yes
+   
+# Other github account: SteveMoody73
+Host github-sm
+   HostName github.com
+   IdentityFile ~/.ssh/id_github_stevemoody73
+   IdentitiesOnly yes
+
