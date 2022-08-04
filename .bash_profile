@@ -32,7 +32,7 @@ if [ -f /usr/local/etc/bash_completion ]; then
   . /usr/local/etc/bash_completion
 fi
 
-# install powerline-go: go get -u github.com/justjanne/powerline-go
+# install powerline-go: go install github.com/justjanne/powerline-go@latest
 GOPATH=$HOME/go
 function _update_ps1() {
         PS1="$($GOPATH/bin/powerline-go -error $?)"
